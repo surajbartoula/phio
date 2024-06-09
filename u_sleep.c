@@ -14,5 +14,4 @@ int main()
     long microseconds = end.tv_usec - start.tv_usec;
     double elapsedMilliseconds = (seconds * 1000) + (microseconds / 1000);
     printf("Expected sleep: 500 milliseconds\n");
-    printf("Actual sleep duration: %.2f milliseconds\n", elapsedMilliseconds);
 }

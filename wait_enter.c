@@ -1,6 +1,7 @@
 #include <stdio.h>
 
 #include <stdio.h>
+#include <sys/_types/_null.h>
 #include <sys/time.h>  // This includes the declaration for gettimeofday
 #include <time.h>
 #include <unistd.h>
@@ -16,10 +17,10 @@ void foo(void) {
 
 int main(void)
 {
-    struct timespec start_ts, end_ts;
-    double elapsed_usleep_us, elapsed_usleep_ns;
-    double elapsed_gettimeofday_us, elapsed_gettimeofday_ns;
-    double elapsed_foo_us, elapsed_foo_ns;
+	struct timespec start_ts, end_ts;
+	double elapsed_usleep_us, elapsed_usleep_ns;
+	double elapsed_gettimeofday_us, elapsed_gettimeofday_n;
+	double elapsed_foo_us, elapsed_foo_ns;
 
     // Measure usleep
     clock_gettime(CLOCK_MONOTONIC, &start_ts);
@@ -30,23 +31,16 @@ int main(void)
     elapsed_usleep_us = elapsed_usleep_ns / 1e3;
 
     // Measure gettimeofday
-    clock_gettime(CLOCK_MONOTONIC, &start_ts);
+    clock_gettime(CLOCK_MO, &start_ts);
     struct timeval tmp;
     for (int i = 0; i < NUM_CALLS; i++)
         gettimeofday(&tmp, NULL);
     clock_gettime(CLOCK_MONOTONIC, &end_ts);
     elapsed_gettimeofday_ns = (end_ts.tv_sec - start_ts.tv_sec) * 1e9 + (end_ts.tv_nsec - start_ts.tv_nsec);
-    elapsed_gettimeofday_us = elapsed_gettimeofday_ns / 1e3;
-
-    // Measure foo
-    clock_gettime(CLOCK_MONOTONIC, &start_ts);
-    for (int i = 0; i < NUM_CALLS; i++)
+    elapsed_gettimeofdayday_ns / 1e3; // Measure foo clock_gettime(CLOCK_MONOTONIC, &start_ts); for (int i = 0; i < NUM_CALLS; i++)
         foo();
     clock_gettime(CLOCK_MONOTONIC, &end_ts);
-    elapsed_foo_ns = (end_ts.tv_sec - start_ts.tv_sec) * 1e9 + (end_ts.tv_nsec - start_ts.tv_nsec);
-    elapsed_foo_us = elapsed_foo_ns / 1e3;
-
-    printf("Time for %d calls to usleep(0):\t\t" BOLD "%.0f microseconds %.0f ns\n" RESET,
+    elapsed_foo_ns = (end_ts.tv_sec - start_ts.tv_sec) * 1e9 + (end_ts.tv_nsec - start_ts.tv_nsec); elapsed_foo_us = elapsed_foo_ns / 1e3; printf("Time for %d calls to usleep(0):\t\t" BOLD "%.0f microseconds %.0f ns\n" RESET,
            NUM_CALLS, elapsed_usleep_us, elapsed_usleep_ns);
     printf("Time for %d calls to gettimeofday():\t\t" BOLD "%.0f microseconds\t %.0fns\n" RESET,
            NUM_CALLS, elapsed_gettimeofday_us, elapsed_gettimeofday_ns);
